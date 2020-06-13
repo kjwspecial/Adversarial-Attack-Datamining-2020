@@ -20,18 +20,13 @@ class FastGuidedFilter(nn.Module):
         assert c_lrx == c_hrx and (c_lrx == 1 or c_lrx == c_lry)
         assert h_lrx == h_lry and w_lrx == w_lry
         assert h_lrx > 2*self.r+1 and w_lrx > 2*self.r+1
-        ## N
+        # N
         N = self.boxfilter(Variable(lr_x.data.new().resize_((1, 1, h_lrx, w_lrx)).fill_(1.0)))
 
-        ## mean_x
-#         print(self.boxfilter(lr_x))
+        # mean_x
         mean_x = self.boxfilter(lr_x) / N
-#         print("--------------------------------------------")
-#         print(mean_x)
-#         ## mean_y
-#         print(lr_y.shape)
+        # mean_y
         mean_y = self.boxfilter(lr_y) / N
-#         print(mean_y)
         ## cov_xy
         cov_xy = self.boxfilter(lr_x * lr_y) / N - mean_x * mean_y
         ## var_x
