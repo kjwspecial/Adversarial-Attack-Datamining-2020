@@ -7,7 +7,6 @@ from torch.nn import functional as F
 import copy
 
 def processImage(x):
-    x = x[:, :, (2, 1, 0)]
     x = tf.Variable(x)
     x = tf.expand_dims(x,0)
     return x
@@ -58,6 +57,7 @@ def recreate_image(image):
     recreated_im = image.numpy()
     recreated_im = tf.clip_by_value(recreated_im,0,1)
     recreated_im = np.round(recreated_im * 255)
+    recreated_im = recreated[..., ::-1]
     return recreated_im
 
 
